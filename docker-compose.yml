@@ -1,0 +1,34 @@
+services:
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest # Use the latest ChromaDB image
+    container_name: chromadb
+    ports:
+      - "8000:8000" # Expose the ChromaDB API on port 8000
+    environment:
+      - CHROMA_DB_PATH=/data/chroma
+    volumes:
+      - chromadb_data:/data/chroma # Persistent storage for the ChromaDB database
+
+  minio:
+    image: docker.io/bitnami/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - minionetwork
+    volumes:
+      - "minio_data:/data"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=admin1234
+      - MINIO_DEFAULT_BUCKETS=datasource
+
+networks:
+  minionetwork:
+    driver: bridge
+
+volumes:
+  minio_data:
+    driver: local
+  chromadb_data:
+    driver: local
