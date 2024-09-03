@@ -5,7 +5,7 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core.node_parser import SimpleFileNodeParser
 
-from .query_engine import get_or_create_storage_context
+from .storage_context import get_or_create_storage_context
 from .vector_store import get_vector_store_singleton
 from .document_store import get_storage_client
 
@@ -38,7 +38,7 @@ def add_document(
 ) -> None:
     file_system = get_storage_client()
     documents = SimpleDirectoryReader(
-        input_dir=bucket_name, fs=file_system, input_files=[document_location]
+        input_dir=bucket_name, input_files=[document_location]
     ).load_data(fs=file_system)
 
     parsed_nodes = SimpleFileNodeParser().get_nodes_from_documents(documents=documents)

@@ -26,12 +26,6 @@ client = Minio(
 
 
 def get_storage_client() -> AsyncFileSystem:
-    """
-    Returns an instance of AsyncFileSystem for accessing the storage client.
-
-    Returns:
-        AsyncFileSystem: An instance of AsyncFileSystem for accessing the storage client.
-    """
     s3 = core.S3FileSystem(
         key=bucket_access_key,
         secret=bucket_secret_key,
